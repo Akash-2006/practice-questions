@@ -1,8 +1,31 @@
 // even numbers [1, 2, 3, 4, 5] => [2, 4]
-const filterEvenNumbers = function (numbers) { };
+const isEven = function (number) {
+  return (number & 1) === 0;
+};
+
+const filterEvenNumbers = function (numbers) {
+  return numbers.filter(isEven);
+};
+
+console.log(filterEvenNumbers([1]));
+console.log(filterEvenNumbers([1, 2]));
+console.log(filterEvenNumbers([1, 2, 3, 4, 5, 6, 7]));
 
 // words with more than 5 letters ["apple", "banana", "kiwi", "grape"] => ["banana"]
-const filterLongWords = function (words) { };
+
+const isLengthGreterThanLimit = function (limit) {
+  return function (string) {
+    return string.length > limit;
+  };
+};
+
+const filterLongWords = function (words) {
+  return words.filter(isLengthGreterThanLimit(5));
+};
+
+console.log(filterLongWords(['a']));
+console.log(filterLongWords(['banana']));
+console.log(filterLongWords(["apple", "banana", "kiwi", "grape"]));
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
 const filterAdults = function (people) { };
