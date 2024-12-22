@@ -11,16 +11,19 @@ console.log(filterEvenNumbers([1]));
 console.log(filterEvenNumbers([1, 2]));
 console.log(filterEvenNumbers([1, 2, 3, 4, 5, 6, 7]));
 
+const isGreater = function (number1, number2) {
+  return number1 > number2;
+};
 // words with more than 5 letters ["apple", "banana", "kiwi", "grape"] => ["banana"]
 
-const isLengthGreterThanLimit = function (limit) {
+const isLengthGreaterThanLimit = function (limit) {
   return function (string) {
-    return string.length > limit;
+    return isGreater(string.length, limit);
   };
 };
 
 const filterLongWords = function (words) {
-  return words.filter(isLengthGreterThanLimit(5));
+  return words.filter(isLengthGreaterThanLimit(5));
 };
 
 console.log(filterLongWords(['a']));
@@ -28,9 +31,10 @@ console.log(filterLongWords(['banana']));
 console.log(filterLongWords(["apple", "banana", "kiwi", "grape"]));
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
+
 const isAgeGreaterThanStandard = function (standardAge) {
   return function (personDetails) {
-    return personDetails.age > standardAge;
+    return isGreater(personDetails.age, standardAge);
   };
 };
 
@@ -54,11 +58,32 @@ console.log(filterActiveUsers([{ username: 'alice', active: false }]));
 console.log(filterActiveUsers([{ username: "alice", active: true }, { username: "bob", active: false }]));
 
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
-const filterNumbersGreaterThanTen = function (numbers) { };
+const isGreaterThanStandardValue = function (threshold) {
+  return function (value) {
+    return isGreater(value, threshold);
+  };
+};
+
+const filterNumbersGreaterThanTen = function (numbers) {
+  return numbers.filter(isGreaterThanStandardValue(10));
+};
+
+console.log(filterNumbersGreaterThanTen([1, 2, 3]));
+console.log(filterNumbersGreaterThanTen([1, 2, 13]));
+console.log(filterNumbersGreaterThanTen([11, 12, 13]));
 
 // books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
-const filterLongBooks = function (books) { };
+const haveMoreThanLimitPages = function (standardPages) {
+  return function (bookDetails) {
+    return isGreater(bookDetails.pages, standardPages);
+  };
+};
 
+const filterLongBooks = function (books) {
+  return books.filter(haveMoreThanLimitPages(200));
+};
+
+console.log(filterLongBooks([{ title: "Book 1", pages: 150 }, { title: "Book 2", pages: 250 }]));
 // users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
 const filterIncompleteProfiles = function (users) { };
 
