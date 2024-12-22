@@ -14,6 +14,7 @@ console.log(filterEvenNumbers([1, 2, 3, 4, 5, 6, 7]));
 const isGreater = function (number1, number2) {
   return number1 > number2;
 };
+
 // words with more than 5 letters ["apple", "banana", "kiwi", "grape"] => ["banana"]
 
 const isLengthGreaterThanLimit = function (limit) {
@@ -30,34 +31,8 @@ console.log(filterLongWords(['a']));
 console.log(filterLongWords(['banana']));
 console.log(filterLongWords(["apple", "banana", "kiwi", "grape"]));
 
-// people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
-
-const isAgeGreaterThanStandard = function (standardAge) {
-  return function (personDetails) {
-    return isGreater(personDetails.age, standardAge);
-  };
-};
-
-const filterAdults = function (people) {
-  return people.filter(isAgeGreaterThanStandard(30));
-};
-
-console.log(filterAdults([{ 'name': "Alice", 'age': 25 }, { 'name': "Bob", 'age': 35 }]));
-console.log(filterAdults([{ 'name': "Alice", 'age': 25 }, { 'name': "Bob", 'age': 20 }]));
-
-// active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
-const isActive = function (userDetails) {
-  return userDetails.active;
-};
-
-const filterActiveUsers = function (users) {
-  return users.filter(isActive);
-};
-
-console.log(filterActiveUsers([{ username: 'alice', active: false }]));
-console.log(filterActiveUsers([{ username: "alice", active: true }, { username: "bob", active: false }]));
-
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
+
 const isGreaterThanStandardValue = function (threshold) {
   return function (value) {
     return isGreater(value, threshold);
@@ -72,23 +47,66 @@ console.log(filterNumbersGreaterThanTen([1, 2, 3]));
 console.log(filterNumbersGreaterThanTen([1, 2, 13]));
 console.log(filterNumbersGreaterThanTen([11, 12, 13]));
 
-// books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
-const haveMoreThanLimitPages = function (standardPages) {
-  return function (bookDetails) {
-    return isGreater(bookDetails.pages, standardPages);
+// active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
+
+const isKeyVaild = function (key) {
+  return function (details) {
+    return details[key];
   };
 };
 
+const filterActiveUsers = function (users) {
+  return users.filter(isKeyVaild('active'));
+};
+
+console.log(filterActiveUsers([{ username: 'alice', active: false }]));
+console.log(filterActiveUsers([{ username: "alice", active: true }, { username: "bob", active: false }]));
+
+// users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
+
+const invert = function (f) {
+  return function (args) {
+    return !f(args);
+  };
+};
+
+const filterIncompleteProfiles = function (users) {
+  return users.filter(invert(isKeyVaild('profileComplete')));
+};
+
+console.log(filterIncompleteProfiles([{ username: "alice", profileComplete: true }, { username: "bob", profileComplete: false }]));
+
+// people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
+
+const isKeyGreaterThanThreshold = function (key, threshold) {
+  return function (details) {
+    return isGreater(details[key], threshold);
+  };
+};
+
+const filterAdults = function (people) {
+  return people.filter(isKeyGreaterThanThreshold('age', 30));
+};
+
+console.log(filterAdults([{ 'name': "Alice", 'age': 25 }, { 'name': "Bob", 'age': 35 }]));
+console.log(filterAdults([{ 'name': "Alice", 'age': 25 }, { 'name': "Bob", 'age': 20 }]));
+
+// books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
+//change
+
 const filterLongBooks = function (books) {
-  return books.filter(haveMoreThanLimitPages(200));
+  return books.filter(isKeyGreaterThanThreshold('pages', 200));
 };
 
 console.log(filterLongBooks([{ title: "Book 1", pages: 150 }, { title: "Book 2", pages: 250 }]));
-// users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
-const filterIncompleteProfiles = function (users) { };
 
 // students with grades above 80 [{name: "John", grade: 75}, {name: "Jane", grade: 85}] => [{name: "Jane", grade: 85}]
-const filterHighGrades = function (students) { };
+
+const filterHighGrades = function (students) {
+  return students.filter(isKeyGreaterThanThreshold('grade', 80));
+};
+
+console.log(filterHighGrades([{ name: "John", grade: 75 }, { name: "Jane", grade: 85 }]));
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
 const filterInStockProducts = function (products) { };
