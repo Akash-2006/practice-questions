@@ -49,9 +49,9 @@ console.log(filterNumbersGreaterThanTen([11, 12, 13]));
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
 
-const isKeyVaild = function (key) {
+const isKeyVaild = function (property) {
   return function (details) {
-    return details[key];
+    return details[property];
   };
 };
 
@@ -78,9 +78,9 @@ console.log(filterIncompleteProfiles([{ username: "alice", profileComplete: true
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
 
-const isKeyGreaterThanThreshold = function (key, threshold) {
+const isKeyGreaterThanThreshold = function (property, threshold) {
   return function (details) {
-    return isGreater(details[key], threshold);
+    return isGreater(details[property], threshold);
   };
 };
 
@@ -109,7 +109,11 @@ const filterHighGrades = function (students) {
 console.log(filterHighGrades([{ name: "John", grade: 75 }, { name: "Jane", grade: 85 }]));
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
-const filterInStockProducts = function (products) { };
+const filterInStockProducts = function (products) {
+  return products.filter(isKeyVaild('inStock'));
+};
+
+console.log(filterInStockProducts([{ product: "apple", inStock: true }, { product: "banana", inStock: false }]));
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
 const filterRecentOrders = function (orders) { };
