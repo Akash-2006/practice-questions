@@ -61,6 +61,7 @@ console.log(sumPositiveNumbers([1, -2, 3, -4]));
 const getSquares = function (number) {
   return number * number;
 };
+
 const sumOfSquares = function (numbers) {
   return numbers.map(getSquares).reduce(addition, 0);
 };
@@ -68,26 +69,86 @@ const sumOfSquares = function (numbers) {
 console.log(sumOfSquares([1, 2, 3, 4]));
 
 // sumOfOddNumbers([1, 2, 3, 4, 5]) => 9
-const sumOfOddNumbers = function (numbers) { };
+const isOdd = function (number) {
+  return (number & 1) === 1;
+};
+
+const sumOfOddNumbers = function (numbers) {
+  return numbers.filter(isOdd).reduce(addition, 0);
+};
+
+console.log(sumOfOddNumbers([1, 2, 3, 4, 5]));
 
 // countNegativeNumbers([1, -2, 3, -4]) => 2
-const countNegativeNumbers = function (numbers) { };
+const isNegative = function (number) {
+  return number < 1;
+};
 
+const countNegative = function (counter, number) {
+  if (isNegative(number)) {
+    return counter + 1;
+  }
+
+  return counter;
+};
+
+const countNegativeNumbers = function (numbers) {
+  return numbers.reduce(countNegative, 0);
+};
+
+console.log(countNegativeNumbers([1, -2, 3, -4]));
 // findSumOfEvenSquares([1, 2, 3, 4]) => 20
-const findSumOfEvenSquares = function (numbers) { };
+const isEven = function (number) {
+  return (number & 1) === 0;
+};
+
+const findSumOfEvenSquares = function (numbers) {
+  return numbers.filter(isEven).map(getSquares).reduce(addition, 0);
+};
+
+console.log(findSumOfEvenSquares([1, 2, 3, 4]));
 
 // concatenateWords(["hello", "world"]) => "helloworld"
-const concatenateWords = function (words) { };
+const concat = function (string1, string2) {
+  return string1 + string2;
+};
+
+const concatenateWords = function (words) {
+  return words.reduce(concat, '');
+};
+
+console.log(concatenateWords(["hello", "world"]));
 
 // longestWord(["apple", "banana", "cherry", "kiwi"]) => "banana"
-const longestWord = function (words) { };
+const getLargestString = function (string1, string2) {
+  return string1.length >= string2.length ? string1 : string2;
+};
+
+const longestWord = function (words) {
+  return words.reduce(getLargestString, '');
+};
+console.log(longestWord(["apple", "banana", "cherry", "kiwi"]));
 
 // shortestWord(["apple", "banana", "cherry", "kiwi"]) => "kiwi"
-const shortestWord = function (words) { };
+const getShortestString = function (string1, string2) {
+  return string1.length <= string2.length ? string1 : string2;
+};
 
+const shortestWord = function (words) {
+  return words.reduce(getShortestString, words[0]);
+};
+
+console.log(shortestWord(["apple", "banana", "cherry", "kiwi"]));
 // joinWithComma(["apple", "banana", "cherry"]) => "apple,banana,cherry"
-const joinWithComma = function (words) { };
+const joinStringsWithComma = function ([sperator, string], string1) {
+  return [',', string + sperator + string1];
+};
 
+const joinWithComma = function (words) {
+  return words.reduce(joinStringsWithComma, ['', ''])[1];
+};
+
+console.log(joinWithComma(["apple", "banana", "cherry"]));
 // reverseWords(["hello", "world"]) => "world hello"
 const reverseWords = function (words) { };
 
