@@ -28,10 +28,30 @@ console.log(filterLongWords(['banana']));
 console.log(filterLongWords(["apple", "banana", "kiwi", "grape"]));
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
-const filterAdults = function (people) { };
+const isAgeGreaterThanStandard = function (standardAge) {
+  return function (personDetails) {
+    return personDetails.age > standardAge;
+  };
+};
+
+const filterAdults = function (people) {
+  return people.filter(isAgeGreaterThanStandard(30));
+};
+
+console.log(filterAdults([{ 'name': "Alice", 'age': 25 }, { 'name': "Bob", 'age': 35 }]));
+console.log(filterAdults([{ 'name': "Alice", 'age': 25 }, { 'name': "Bob", 'age': 20 }]));
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
-const filterActiveUsers = function (users) { };
+const isActive = function (userDetails) {
+  return userDetails.active;
+};
+
+const filterActiveUsers = function (users) {
+  return users.filter(isActive);
+};
+
+console.log(filterActiveUsers([{ username: 'alice', active: false }]));
+console.log(filterActiveUsers([{ username: "alice", active: true }, { username: "bob", active: false }]));
 
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
 const filterNumbersGreaterThanTen = function (numbers) { };
